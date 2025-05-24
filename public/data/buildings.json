@@ -1,0 +1,67 @@
+{
+  "buildings": [
+    {
+      "id": "main-library",
+      "name": "Main Library",
+      "description": "Central library with study spaces and computer labs",
+      "latitude": 51.505,
+      "longitude": -0.09,
+      "rooms": [
+        {
+          "id": "lib-101",
+          "name": "Study Room 101",
+          "floor": 1,
+          "capacity": 20
+        },
+        {
+          "id": "lib-102",
+          "name": "Computer Lab",
+          "floor": 1,
+          "capacity": 30
+        }
+      ]
+    },
+    {
+      "id": "science-building",
+      "name": "Science Building",
+      "description": "Home to physics, chemistry, and biology departments",
+      "latitude": 51.506,
+      "longitude": -0.091,
+      "rooms": [
+        {
+          "id": "sci-201",
+          "name": "Physics Lab",
+          "floor": 2,
+          "capacity": 25
+        },
+        {
+          "id": "sci-202",
+          "name": "Chemistry Lab",
+          "floor": 2,
+          "capacity": 30
+        }
+      ]
+    },
+    {
+      "id": "engineering-center",
+      "name": "Engineering Center",
+      "description": "Engineering and technology facilities",
+      "latitude": 51.504,
+      "longitude": -0.089,
+      "rooms": [
+        {
+          "id": "eng-301",
+          "name": "Robotics Lab",
+          "floor": 3,
+          "capacity": 15
+        },
+        {
+          "id": "eng-302",
+          "name": "Workshop",
+          "floor": 3,
+          "capacity": 40
+        }
+      ]
+    }
+  ]
+}

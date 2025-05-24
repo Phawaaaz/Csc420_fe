@@ -1,0 +1,39 @@
+{
+  "nodes": [
+    {
+      "id": "main-library",
+      "latitude": 51.505,
+      "longitude": -0.09,
+      "connections": ["science-building", "engineering-center"]
+    },
+    {
+      "id": "science-building",
+      "latitude": 51.506,
+      "longitude": -0.091,
+      "connections": ["main-library", "engineering-center"]
+    },
+    {
+      "id": "engineering-center",
+      "latitude": 51.504,
+      "longitude": -0.089,
+      "connections": ["main-library", "science-building"]
+    }
+  ],
+  "edges": [
+    {
+      "from": "main-library",
+      "to": "science-building",
+      "distance": 150
+    },
+    {
+      "from": "main-library",
+      "to": "engineering-center",
+      "distance": 200
+    },
+    {
+      "from": "science-building",
+      "to": "engineering-center",
+      "distance": 180
+    }
+  ]
+}
