@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-
 import { Icon as LeafletIcon, LatLngExpression, Map as LeafletMap } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useMap as useMapContext } from '@/context/MapContext';
+import useCurrentLocation from '@/hooks/useCurrentLocation';
 import Icon from '@/components/atoms/Icon';
 
 // Fix for default marker icons in Leaflet with React
@@ -25,6 +26,16 @@ const selectedIcon = new LeafletIcon({
   shadowSize: [41, 41]
 });
 
+// Custom marker icon for user location
+const userLocationIcon = new LeafletIcon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+
 // Component to handle map view changes
 const MapController: React.FC<{
   center: LatLngExpression;
@@ -34,7 +45,7 @@ const MapController: React.FC<{
   const map = useMap();
   
   useEffect(() => {
-    map.setView(center, zoom);
+    map.flyTo(center, zoom, { animate: true, duration: 1 });
   }, [center, zoom, map]);
 
   // If a building is selected, pan to it
@@ -82,16 +93,17 @@ const CampusMap: React.FC<CampusMapProps> = ({
 }) => {
   const { buildings, loading, error, findPath } = useMapContext();
   const mapRef = useRef<LeafletMap>(null);
+  const { lat, lng, loading: locationLoading, error: locationError } = useCurrentLocation();
   
-  // Default center coordinates (you should replace these with your campus coordinates)
-  const defaultCenter: LatLngExpression = [51.505, -0.09];
-  const defaultZoom = 15;
+  // University of Ilorin coordinates as fallback
+  const defaultCenter: LatLngExpression = [8.47997, 4.54179];
+  const defaultZoom = 17;
 
   // Calculate path if needed
   const path = showPath && pathFrom && pathTo ? findPath(pathFrom, pathTo) : null;
   const pathCoordinates = path?.map(node => [node.latitude, node.longitude] as LatLngExpression);
 
-  if (loading) {
+  if (loading || locationLoading) {
     return (
       <div className="h-full w-full flex items-center justify-center bg-gray-100 rounded-lg">
         <div className="text-gray-500 flex items-center space-x-2">
@@ -115,8 +127,13 @@ const CampusMap: React.FC<CampusMapProps> = ({
 
   return (
     <div className={`h-full w-full ${className}`}>
+      {locationError && (
+        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-[1000] bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-2 rounded shadow-sm">
+          Location unavailable, showing Unilorin campus by default.
+        </div>
+      )}
       <MapContainer
-        center={defaultCenter}
+        center={lat && lng ? [lat, lng] : defaultCenter}
         zoom={defaultZoom}
         style={{ height: '100%', width: '100%' }}
         className="rounded-lg"
@@ -128,10 +145,28 @@ const CampusMap: React.FC<CampusMapProps> = ({
         />
         
         <MapController 
-          center={defaultCenter} 
+          center={lat && lng ? [lat, lng] : defaultCenter} 
           zoom={defaultZoom}
           selectedBuildingId={selectedBuildingId}
         />
+        
+        {/* User Location Marker */}
+        {lat && lng && (
+          <Marker
+            position={[lat, lng]}
+            icon={userLocationIcon}
+          >
+            <Popup>
+              <div className="p-2">
+                <h3 className="font-medium text-sm">Your Location</h3>
+                <p className="text-xs text-gray-600 mt-1">
+                  Latitude: {lat.toFixed(6)}<br />
+                  Longitude: {lng.toFixed(6)}
+                </p>
+              </div>
+            </Popup>
+          </Marker>
+        )}
         
         {/* Draw path if available */}
         {pathCoordinates && pathCoordinates.length > 0 && (

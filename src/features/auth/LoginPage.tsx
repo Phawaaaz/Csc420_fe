@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
+import React, { useState } from "react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
 /**
  * Login page component
@@ -9,21 +9,21 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const from = location.state?.from?.pathname || '/dashboard';
+  const from = location.state?.from?.pathname || "/dashboard";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     try {
       await login(email, password);
       navigate(from, { replace: true });
     } catch (err) {
-      setError('Failed to login. Please check your credentials.');
+      setError("Failed to login. Please check your credentials.");
     }
   };
 
@@ -35,7 +35,7 @@ const LoginPage: React.FC = () => {
           Sign in to continue to Smart Campus Navigation
         </p>
       </div>
-      
+
       <form onSubmit={handleSubmit} className="space-y-6">
         {error && (
           <div className="bg-red-50 text-red-500 p-3 rounded-md text-sm">
@@ -44,7 +44,10 @@ const LoginPage: React.FC = () => {
         )}
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700"
+          >
             Email address
           </label>
           <input
@@ -53,12 +56,16 @@ const LoginPage: React.FC = () => {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm placeholder-gray-400 shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400"
+            placeholder="Enter your email address"
           />
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-gray-700"
+          >
             Password
           </label>
           <input
@@ -67,21 +74,25 @@ const LoginPage: React.FC = () => {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm placeholder-gray-400 shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-gray-400"
+            placeholder="Enter your password"
           />
         </div>
 
         <div className="flex items-center justify-between">
           <label className="flex items-center">
-            <input type="checkbox" className="rounded text-primary focus:ring-primary h-4 w-4" />
+            <input
+              type="checkbox"
+              className="rounded text-primary focus:ring-primary h-4 w-4"
+            />
             <span className="ml-2 text-sm text-gray-600">Remember me</span>
           </label>
-          
+
           <a href="#" className="text-sm text-primary hover:underline">
             Forgot password?
           </a>
         </div>
-        
+
         <div>
           <button
             type="submit"
@@ -91,11 +102,14 @@ const LoginPage: React.FC = () => {
           </button>
         </div>
       </form>
-      
+
       <div className="mt-6 text-center">
         <p className="text-sm text-gray-600">
-          Don't have an account?{' '}
-          <Link to="/signup" className="text-primary hover:underline font-medium">
+          Don't have an account?{" "}
+          <Link
+            to="/signup"
+            className="text-primary hover:underline font-medium"
+          >
             Sign Up
           </Link>
         </p>

@@ -110,7 +110,11 @@ const SignupPage: React.FC = () => {
           value={form.displayName}
           onChange={handleChange}
           error={errors.displayName}
-          fullWidth
+           className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-400 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+        errors.displayName 
+          ? 'border-red-500 bg-red-50 focus:ring-red-500' 
+          : 'border-gray-300 hover:border-gray-400 focus:border-blue-500'
+      }`}
         />
         
         <Input
@@ -121,7 +125,11 @@ const SignupPage: React.FC = () => {
           value={form.email}
           onChange={handleChange}
           error={errors.email}
-          fullWidth
+           className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-400 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+        errors.email 
+          ? 'border-red-500 bg-red-50 focus:ring-red-500' 
+          : 'border-gray-300 hover:border-gray-400 focus:border-blue-500'
+      }`}
         />
         
         <Input
@@ -132,7 +140,11 @@ const SignupPage: React.FC = () => {
           value={form.password}
           onChange={handleChange}
           error={errors.password}
-          fullWidth
+          className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-400 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+        errors.password 
+          ? 'border-red-500 bg-red-50 focus:ring-red-500' 
+          : 'border-gray-300 hover:border-gray-400 focus:border-blue-500'
+      }`}
         />
         
         <Input
@@ -143,7 +155,11 @@ const SignupPage: React.FC = () => {
           value={form.confirmPassword}
           onChange={handleChange}
           error={errors.confirmPassword}
-          fullWidth
+         className={`w-full px-4 py-3 border rounded-lg text-sm placeholder-gray-400 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+        errors.confirmPassword 
+          ? 'border-red-500 bg-red-50 focus:ring-red-500' 
+          : 'border-gray-300 hover:border-gray-400 focus:border-blue-500'
+      }`}
         />
         
         <div className="flex items-center">
