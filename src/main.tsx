@@ -12,5 +12,5 @@ createRoot(document.getElementById('root')!).render(
         <AppRoutes />
       </MapProvider>
     </AuthProvider>
-  </StrictMode>
+  </StrictMode> 
 );
