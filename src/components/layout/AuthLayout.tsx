@@ -13,7 +13,7 @@ const AuthLayout: React.FC = () => {
           <Icon name="Map" size={64} className="text-white" />
         </div>
         <h1 className="text-4xl font-bold text-white mb-2">SMART</h1>
-        <h2 className="text-xl text-white/80 tracking-widest">CAMPUS NAVIGATION</h2>
+        <h2 className="text-xl text-white/80 tracking-widest">UNILORIN CAMPUS NAVIGATION</h2>
       </div>
       
       <div className="w-1/2 flex items-center justify-center bg-white">
