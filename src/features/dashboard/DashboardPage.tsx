@@ -1,7 +1,7 @@
 import React from 'react';
 import DashboardSummary from '@/features/dashboard/components/DashboardSummary';
 import RecentActivity from '@/features/dashboard/components/RecentActivity';
-import AnnouncementPanel from '@/components/organisms/AnnouncementPanel';
+import AnnouncementPanel, { type Announcement } from '@/components/organisms/AnnouncementPanel';
 import { useAuth } from '@/context/AuthContext';
 import { useMap } from '@/context/MapContext';
 
@@ -13,7 +13,12 @@ const DashboardPage: React.FC = () => {
   const { savedLocations } = useMap();
   
   // Sample data - would come from API in a real app
-  const recentActivities = [
+  const recentActivities: Array<{
+    id: string;
+    type: 'search' | 'direction' | 'visited';
+    target: string;
+    timestamp: string;
+  }> = [
     {
       id: '1',
       type: 'search',
@@ -34,43 +39,29 @@ const DashboardPage: React.FC = () => {
     },
   ];
   
-  const announcements = [
+  const announcements: Announcement[] = [
     {
       id: '1',
       title: 'Tip:',
       content: 'You can use the search bar for quick searches.',
-      icon: 'LightbulbIcon',
+      icon: 'Lightbulb',
       priority: 'low',
     },
     {
       id: '2',
-      title: 'Tip:',
-      content: 'You can use the search bar for quick searches.',
-      icon: 'LightbulbIcon',
-      priority: 'low',
-    },
-    {
-      id: '3',
-      title: 'Tip:',
-      content: 'You can use the search bar for quick searches.',
-      icon: 'LightbulbIcon',
-      priority: 'low',
-    },
-    {
-      id: '4',
       title: 'Library closes at 5Pm today',
       content: 'Due to scheduled maintenance, the library will close early today.',
       icon: 'AlertCircle',
       priority: 'medium',
     },
     {
-      id: '5',
+      id: '3',
       title: 'New Schedule on your timeline',
       content: 'Your class schedule has been updated. Check your timeline for changes.',
       icon: 'Calendar',
       priority: 'low',
     },
-  ] as any;
+  ];
 
   return (
     <div className="space-y-6">

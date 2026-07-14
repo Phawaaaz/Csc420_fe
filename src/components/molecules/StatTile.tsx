@@ -1,6 +1,5 @@
 import React from 'react';
-import Icon from '@/components/atoms/Icon';
-import { LucideCrop as LucideProps } from 'lucide-react';
+import type { LucideProps } from 'lucide-react';
 
 interface StatTileProps {
   icon: React.ComponentType<LucideProps>;

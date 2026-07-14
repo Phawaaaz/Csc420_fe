@@ -1,12 +1,18 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import SettingsNav from '@/features/settings/components/SettingsNav';
+import type { IconName } from '@/components/atoms/Icon';
 
 /**
  * Settings page with navigation and content area
  */
 const SettingsPage: React.FC = () => {
-  const settingsNavItems = [
+  const settingsNavItems: Array<{
+    id: string;
+    label: string;
+    icon: IconName;
+    path: string;
+  }> = [
     {
       id: 'profile',
       label: 'Profile',

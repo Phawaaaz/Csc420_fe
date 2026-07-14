@@ -84,7 +84,7 @@ const SignupPage: React.FC = () => {
         .then(() => {
           navigate('/dashboard');
         })
-        .catch((error) => {
+        .catch(() => {
           setErrors({
             ...errors,
             email: 'Email already in use or invalid',

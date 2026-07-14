@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink as RouterNavLink, NavLinkProps as RouterNavLinkProps } from 'react-router-dom';
-import Icon from '@/components/atoms/Icon';
-import { LucideCrop as LucideProps } from 'lucide-react';
+import type { LucideProps } from 'lucide-react';
 
 interface NavLinkProps extends Omit<RouterNavLinkProps, 'className'> {
   icon: React.ComponentType<LucideProps>;

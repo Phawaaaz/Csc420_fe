@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
-import { Icon as LeafletIcon, LatLngExpression, Map as LeafletMap } from 'leaflet';
+import { Icon as LeafletIcon, LatLngExpression, Map as LeafletMap, Marker as LeafletMarker } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useMap as useMapContext } from '@/context/MapContext';
 import useCurrentLocation from '@/hooks/useCurrentLocation';
@@ -93,7 +93,15 @@ const CampusMap: React.FC<CampusMapProps> = ({
 }) => {
   const { buildings, loading, error, findPath } = useMapContext();
   const mapRef = useRef<LeafletMap>(null);
+  const markerRefs = useRef<Record<string, LeafletMarker>>({});
   const { lat, lng, loading: locationLoading, error: locationError } = useCurrentLocation();
+
+  // Open the popup for the currently selected building, e.g. when arriving via search
+  useEffect(() => {
+    if (selectedBuildingId) {
+      markerRefs.current[selectedBuildingId]?.openPopup();
+    }
+  }, [selectedBuildingId, buildings]);
   
   // University of Ilorin coordinates as fallback
   const defaultCenter: LatLngExpression = [8.47997, 4.54179];
@@ -189,6 +197,13 @@ const CampusMap: React.FC<CampusMapProps> = ({
               click: () => onBuildingSelect?.(building.id)
             }}
             data-building-id={building.id}
+            ref={(instance) => {
+              if (instance) {
+                markerRefs.current[building.id] = instance;
+              } else {
+                delete markerRefs.current[building.id];
+              }
+            }}
           >
             <Popup>
               <div className="p-2 min-w-[200px]">

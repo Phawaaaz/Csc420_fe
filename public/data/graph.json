@@ -1,39 +1,48 @@
 {
   "nodes": [
     {
+      "id": "senate-building",
+      "latitude": 8.4799,
+      "longitude": 4.5418,
+      "connections": ["main-library", "cis-faculty", "engineering-faculty", "student-union"]
+    },
+    {
       "id": "main-library",
-      "latitude": 51.505,
-      "longitude": -0.09,
-      "connections": ["science-building", "engineering-center"]
+      "latitude": 8.4808,
+      "longitude": 4.5432,
+      "connections": ["senate-building", "sports-complex"]
     },
     {
-      "id": "science-building",
-      "latitude": 51.506,
-      "longitude": -0.091,
-      "connections": ["main-library", "engineering-center"]
+      "id": "cis-faculty",
+      "latitude": 8.4791,
+      "longitude": 4.5405,
+      "connections": ["senate-building", "engineering-faculty"]
     },
     {
-      "id": "engineering-center",
-      "latitude": 51.504,
-      "longitude": -0.089,
-      "connections": ["main-library", "science-building"]
+      "id": "engineering-faculty",
+      "latitude": 8.4815,
+      "longitude": 4.5398,
+      "connections": ["senate-building", "cis-faculty"]
+    },
+    {
+      "id": "student-union",
+      "latitude": 8.4785,
+      "longitude": 4.5432,
+      "connections": ["senate-building"]
+    },
+    {
+      "id": "sports-complex",
+      "latitude": 8.4825,
+      "longitude": 4.5445,
+      "connections": ["main-library"]
     }
   ],
   "edges": [
-    {
-      "from": "main-library",
-      "to": "science-building",
-      "distance": 150
-    },
-    {
-      "from": "main-library",
-      "to": "engineering-center",
-      "distance": 200
-    },
-    {
-      "from": "science-building",
-      "to": "engineering-center",
-      "distance": 180
-    }
+    { "from": "senate-building", "to": "main-library", "distance": 184 },
+    { "from": "senate-building", "to": "cis-faculty", "distance": 168 },
+    { "from": "senate-building", "to": "engineering-faculty", "distance": 283 },
+    { "from": "senate-building", "to": "student-union", "distance": 219 },
+    { "from": "main-library", "to": "sports-complex", "distance": 237 },
+    { "from": "cis-faculty", "to": "engineering-faculty", "distance": 278 }
   ]
 }

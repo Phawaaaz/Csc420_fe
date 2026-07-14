@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Icon from '@/components/atoms/Icon';
+import SearchBar from '@/components/molecules/SearchBar';
+import { useMap } from '@/context/MapContext';
 
 interface HeaderProps {
-  onSearch: (query: string) => void;
   userName?: string | null;
   onMenuClick?: () => void;
 }
@@ -10,11 +12,13 @@ interface HeaderProps {
 /**
  * Main header component with search and user info
  */
-const Header: React.FC<HeaderProps> = ({ 
-  onSearch, 
+const Header: React.FC<HeaderProps> = ({
   userName,
   onMenuClick
 }) => {
+  const navigate = useNavigate();
+  const { buildings } = useMap();
+
   const currentDate = new Date();
   const formattedDate = new Intl.DateTimeFormat('en-US', {
     weekday: 'short',
@@ -27,6 +31,36 @@ const Header: React.FC<HeaderProps> = ({
     minute: '2-digit',
     hour12: true
   }).format(currentDate);
+
+  const suggestions = useMemo(
+    () =>
+      (buildings || []).map((building) => ({
+        id: building.id,
+        title: building.name,
+        subtitle: building.description,
+        type: 'building' as const,
+      })),
+    [buildings]
+  );
+
+  const goToBuilding = (buildingId: string) => {
+    navigate(`/map?building=${encodeURIComponent(buildingId)}`);
+  };
+
+  const handleSearch = (query: string) => {
+    const normalized = query.trim().toLowerCase();
+    if (!normalized) return;
+
+    const match =
+      buildings?.find((building) => building.name.toLowerCase() === normalized) ||
+      buildings?.find((building) => building.name.toLowerCase().includes(normalized));
+
+    if (match) {
+      goToBuilding(match.id);
+    } else {
+      navigate('/map');
+    }
+  };
 
   return (
     <header className="bg-white border-b border-gray-200 px-4 py-3">
@@ -41,23 +75,20 @@ const Header: React.FC<HeaderProps> = ({
 
         {/* Search bar */}
         <div className="flex-1 max-w-2xl mx-4">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search locations..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-              onChange={(e) => onSearch(e.target.value)}
-            />
-            <Icon
-              name="Search"
-              size={20}
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-            />
-          </div>
+          <SearchBar
+            onSearch={handleSearch}
+            onSelectSuggestion={(suggestion) => goToBuilding(suggestion.id)}
+            suggestions={suggestions}
+            placeholder="Search locations..."
+            showSuggestionsOnFocus={false}
+          />
         </div>
 
         {/* User profile */}
         <div className="flex items-center space-x-4">
+          <span className="text-xs text-gray-500 hidden md:block whitespace-nowrap">
+            {formattedDate} · {formattedTime}
+          </span>
           {userName && (
             <span className="text-sm font-medium text-gray-700 hidden sm:block">
               {userName}
