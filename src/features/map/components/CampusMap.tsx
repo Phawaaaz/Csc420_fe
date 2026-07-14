@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
-import { Icon as LeafletIcon, LatLngExpression, Map as LeafletMap, Marker as LeafletMarker } from 'leaflet';
+import { Icon as LeafletIcon, LatLngBounds, LatLngExpression, Map as LeafletMap, Marker as LeafletMarker } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useMap as useMapContext } from '@/context/MapContext';
 import useCurrentLocation from '@/hooks/useCurrentLocation';
@@ -35,6 +35,17 @@ const userLocationIcon = new LeafletIcon({
   popupAnchor: [1, -34],
   shadowSize: [41, 41]
 });
+
+// This is a dedicated University of Ilorin campus map: it always centers on
+// campus and never re-centers based on the device's real-world location, so
+// it stays useful even when opened somewhere off campus (e.g. while testing).
+const CAMPUS_CENTER: LatLngExpression = [8.47997, 4.54179];
+const CAMPUS_ZOOM = 17;
+const CAMPUS_MIN_ZOOM = 15;
+// A ~2.4km box around campus - large enough to cover every building plus
+// some surrounding area, tight enough that panning/zooming can't drift away
+// from Unilorin.
+const CAMPUS_BOUNDS = new LatLngBounds([8.4679, 4.5298], [8.4919, 4.5538]);
 
 // Component to handle map view changes
 const MapController: React.FC<{
@@ -103,10 +114,6 @@ const CampusMap: React.FC<CampusMapProps> = ({
     }
   }, [selectedBuildingId, buildings]);
   
-  // University of Ilorin coordinates as fallback
-  const defaultCenter: LatLngExpression = [8.47997, 4.54179];
-  const defaultZoom = 17;
-
   // Calculate path if needed
   const path = showPath && pathFrom && pathTo ? findPath(pathFrom, pathTo) : null;
   const pathCoordinates = path?.map(node => [node.latitude, node.longitude] as LatLngExpression);
@@ -134,15 +141,18 @@ const CampusMap: React.FC<CampusMapProps> = ({
   }
 
   return (
-    <div className={`h-full w-full ${className}`}>
+    <div className={`relative h-full w-full ${className}`}>
       {locationError && (
-        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-[1000] bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-2 rounded shadow-sm">
-          Location unavailable, showing Unilorin campus by default.
+        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-[1000] max-w-[calc(100%-2rem)] text-center bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-2 rounded shadow-sm text-sm">
+          Couldn't get your live location — showing the Unilorin campus map.
         </div>
       )}
       <MapContainer
-        center={lat && lng ? [lat, lng] : defaultCenter}
-        zoom={defaultZoom}
+        center={CAMPUS_CENTER}
+        zoom={CAMPUS_ZOOM}
+        minZoom={CAMPUS_MIN_ZOOM}
+        maxBounds={CAMPUS_BOUNDS}
+        maxBoundsViscosity={1.0}
         style={{ height: '100%', width: '100%' }}
         className="rounded-lg"
         ref={mapRef}
@@ -151,10 +161,10 @@ const CampusMap: React.FC<CampusMapProps> = ({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        
-        <MapController 
-          center={lat && lng ? [lat, lng] : defaultCenter} 
-          zoom={defaultZoom}
+
+        <MapController
+          center={CAMPUS_CENTER}
+          zoom={CAMPUS_ZOOM}
           selectedBuildingId={selectedBuildingId}
         />
         
