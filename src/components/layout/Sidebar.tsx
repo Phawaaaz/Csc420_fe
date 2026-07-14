@@ -161,30 +161,35 @@ const Sidebar: React.FC<SidebarProps> = ({
             icon={LayoutDashboard}
             label="Dashboard"
             className={linkCollapsed}
+            onClick={onClose}
           />
           <NavLink
             to="/map"
             icon={Map}
             label="Campus Map"
             className={linkCollapsed}
+            onClick={onClose}
           />
           <NavLink
             to="/direction"
             icon={Navigation}
             label="Direction"
             className={linkCollapsed}
+            onClick={onClose}
           />
           <NavLink
             to="/saved"
             icon={Bookmark}
             label="Saved Location"
             className={linkCollapsed}
+            onClick={onClose}
           />
           <NavLink
             to="/settings"
             icon={Settings}
             label="Settings"
             className={linkCollapsed}
+            onClick={onClose}
           />
         </nav>
 

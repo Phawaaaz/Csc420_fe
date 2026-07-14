@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Icon from '@/components/atoms/Icon';
 import SearchBar from '@/components/molecules/SearchBar';
 import { useMap } from '@/context/MapContext';
+import { findBestBuildingMatch } from '@/utils/search';
 
 interface HeaderProps {
   userName?: string | null;
@@ -48,13 +49,9 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   const handleSearch = (query: string) => {
-    const normalized = query.trim().toLowerCase();
-    if (!normalized) return;
+    if (!query.trim()) return;
 
-    const match =
-      buildings?.find((building) => building.name.toLowerCase() === normalized) ||
-      buildings?.find((building) => building.name.toLowerCase().includes(normalized));
-
+    const match = findBestBuildingMatch(buildings, query);
     if (match) {
       goToBuilding(match.id);
     } else {

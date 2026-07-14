@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { 
-  BrowserRouter, 
-  Routes, 
-  Route, 
+import React, { lazy, Suspense, useEffect, useState } from 'react';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
   Navigate,
   useLocation
 } from 'react-router-dom';
@@ -14,8 +14,6 @@ import AuthLayout from '@/components/layout/AuthLayout';
 
 // Features
 import DashboardPage from '@/features/dashboard/DashboardPage';
-import MapPage from '@/features/map/MapPage';
-import DirectionPage from '@/features/direction/DirectionPage';
 import SavedLocationPage from '@/features/saved/SavedLocationPage';
 import SettingsPage from '@/features/settings/SettingsPage';
 import ProfileSettings from '@/features/settings/ProfileSettings';
@@ -26,6 +24,11 @@ import LoginPage from '@/features/auth/LoginPage';
 import SignupPage from '@/features/auth/SignupPage';
 import NotFoundPage from '@/features/notFound/NotFoundPage';
 import LoadingScreen from '@/features/loading/LoadingScreen';
+
+// Lazy-loaded: these pull in react-leaflet/leaflet, by far the heaviest
+// dependency, so they get their own chunk instead of bloating the main bundle.
+const MapPage = lazy(() => import('@/features/map/MapPage'));
+const DirectionPage = lazy(() => import('@/features/direction/DirectionPage'));
 
 // Protected route wrapper
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -79,8 +82,22 @@ const AppRoutes: React.FC = () => {
         }>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/map" element={<MapPage />} />
-          <Route path="/direction" element={<DirectionPage />} />
+          <Route
+            path="/map"
+            element={
+              <Suspense fallback={<LoadingScreen />}>
+                <MapPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/direction"
+            element={
+              <Suspense fallback={<LoadingScreen />}>
+                <DirectionPage />
+              </Suspense>
+            }
+          />
           <Route path="/saved" element={<SavedLocationPage />} />
           
           {/* Settings routes */}
