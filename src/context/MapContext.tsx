@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { findShortestPath, type Graph, type GraphNode } from '@/utils/pathfinding';
 
 interface Room {
   id: string;
@@ -14,22 +15,6 @@ interface Building {
   latitude: number;
   longitude: number;
   rooms?: Room[];
-}
-
-interface GraphNode {
-  id: string;
-  latitude: number;
-  longitude: number;
-  connections: string[];
-}
-
-interface Graph {
-  nodes: GraphNode[];
-  edges: Array<{
-    from: string;
-    to: string;
-    distance: number;
-  }>;
 }
 
 interface MapContextType {
@@ -118,66 +103,7 @@ export const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
   // Find path between two locations using Dijkstra's algorithm
   const findPath = (fromId: string, toId: string): GraphNode[] | null => {
     if (!graph) return null;
-    
-    const distances: { [key: string]: number } = {};
-    const previous: { [key: string]: string | null } = {};
-    const unvisited = new Set<string>();
-    
-    // Initialize distances
-    graph.nodes.forEach((node) => {
-      distances[node.id] = node.id === fromId ? 0 : Infinity;
-      previous[node.id] = null;
-      unvisited.add(node.id);
-    });
-    
-    while (unvisited.size > 0) {
-      // Find node with smallest distance
-      let current = '';
-      let smallestDistance = Infinity;
-      unvisited.forEach((nodeId) => {
-        if (distances[nodeId] < smallestDistance) {
-          smallestDistance = distances[nodeId];
-          current = nodeId;
-        }
-      });
-      
-      if (current === toId) {
-        // Path found, reconstruct it
-        const path: GraphNode[] = [];
-        let currentId = toId;
-        while (currentId) {
-          const node = graph.nodes.find((n) => n.id === currentId);
-          if (node) path.unshift(node);
-          currentId = previous[currentId] || '';
-        }
-        return path;
-      }
-      
-      if (smallestDistance === Infinity) break;
-      
-      unvisited.delete(current);
-      
-      // Update distances to neighbors
-      const currentNode = graph.nodes.find((n) => n.id === current);
-      if (currentNode) {
-        currentNode.connections.forEach((neighborId) => {
-          const edge = graph.edges.find(
-            (e) =>
-              (e.from === current && e.to === neighborId) ||
-              (e.from === neighborId && e.to === current)
-          );
-          if (edge && unvisited.has(neighborId)) {
-            const distance = distances[current] + edge.distance;
-            if (distance < distances[neighborId]) {
-              distances[neighborId] = distance;
-              previous[neighborId] = current;
-            }
-          }
-        });
-      }
-    }
-    
-    return null;
+    return findShortestPath(graph, fromId, toId);
   };
   
   const value = {
