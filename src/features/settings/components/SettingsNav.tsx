@@ -1,11 +1,11 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import Icon from '@/components/atoms/Icon';
+import Icon, { type IconName } from '@/components/atoms/Icon';
 
 interface SettingsNavItem {
   id: string;
   label: string;
-  icon: string;
+  icon: IconName;
   path: string;
 }
 
@@ -35,9 +35,9 @@ const SettingsNav: React.FC<SettingsNavProps> = ({
             }
           `}
         >
-          <Icon 
-            name={item.icon as any} 
-            size={18} 
+          <Icon
+            name={item.icon}
+            size={18}
             className="mr-3 flex-shrink-0" 
           />
           {item.label}

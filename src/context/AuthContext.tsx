@@ -42,8 +42,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setLoading(false);
   }, []);
   
-  const login = async (email: string, password: string): Promise<void> => {
-    return new Promise((resolve, reject) => {
+  const login = async (email: string, _password: string): Promise<void> => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         const user = {
           uid: `user-${Date.now()}`,
@@ -59,8 +59,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
   
   const signup = async (
-    email: string, 
-    password: string, 
+    email: string,
+    _password: string,
     displayName: string
   ): Promise<void> => {
     return new Promise((resolve) => {

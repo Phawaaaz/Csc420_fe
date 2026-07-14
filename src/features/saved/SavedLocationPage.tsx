@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import BuildingInfo from '@/components/organisms/BuildingInfo';
 import Button from '@/components/atoms/Button';
 import Icon from '@/components/atoms/Icon';
@@ -9,14 +10,14 @@ import { useMap } from '@/context/MapContext';
  */
 const SavedLocationPage: React.FC = () => {
   const { buildings, savedLocations, removeLocation } = useMap();
-  
+  const navigate = useNavigate();
+
   const savedBuildings = buildings?.filter(
     (building) => savedLocations?.includes(building.id)
   ) || [];
-  
+
   const handleNavigate = (buildingId: string) => {
-    console.log(`Navigating to ${buildingId}`);
-    // Implement navigation logic
+    navigate(`/direction?to=${encodeURIComponent(buildingId)}`);
   };
   
   const handleRemove = (buildingId: string) => {
@@ -63,7 +64,7 @@ const SavedLocationPage: React.FC = () => {
           <p className="text-sm text-gray-600 mb-4">
             Browse the campus map and bookmark your favorite locations for quick access
           </p>
-          <Button variant="primary">
+          <Button variant="primary" onClick={() => navigate('/map')}>
             <Icon name="Map" size={16} className="mr-2" />
             Explore Campus Map
           </Button>

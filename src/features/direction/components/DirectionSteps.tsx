@@ -1,12 +1,12 @@
 import React from 'react';
-import Icon from '@/components/atoms/Icon';
+import Icon, { type IconName } from '@/components/atoms/Icon';
 
-interface DirectionStep {
+export interface DirectionStep {
   id: string;
   instruction: string;
   distance: string;
   time: string;
-  icon?: string;
+  icon?: IconName;
 }
 
 interface DirectionStepsProps {
@@ -42,9 +42,9 @@ const DirectionSteps: React.FC<DirectionStepsProps> = ({
             
             <div className="ml-4 flex-1">
               <div className="flex items-center">
-                <Icon 
-                  name={(step.icon || 'ArrowRight') as any} 
-                  size={16} 
+                <Icon
+                  name={step.icon || 'ArrowRight'}
+                  size={16}
                   className="text-primary mr-2" 
                 />
                 <p className="text-sm font-medium text-gray-800">{step.instruction}</p>

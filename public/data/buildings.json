@@ -1,67 +1,66 @@
 {
   "buildings": [
     {
+      "id": "senate-building",
+      "name": "Senate Building",
+      "description": "Administrative hub of the University of Ilorin, housing the Vice-Chancellor's office and central administration.",
+      "latitude": 8.4799,
+      "longitude": 4.5418,
+      "rooms": [
+        { "id": "sb-vc-office", "name": "Vice-Chancellor's Office", "floor": 2, "capacity": 10 },
+        { "id": "sb-council-chambers", "name": "Council Chambers", "floor": 3, "capacity": 60 }
+      ]
+    },
+    {
       "id": "main-library",
-      "name": "Main Library",
-      "description": "Central library with study spaces and computer labs",
-      "latitude": 51.505,
-      "longitude": -0.09,
+      "name": "University Library",
+      "description": "The main university library with study spaces, computer labs, and research collections.",
+      "latitude": 8.4808,
+      "longitude": 4.5432,
       "rooms": [
-        {
-          "id": "lib-101",
-          "name": "Study Room 101",
-          "floor": 1,
-          "capacity": 20
-        },
-        {
-          "id": "lib-102",
-          "name": "Computer Lab",
-          "floor": 1,
-          "capacity": 30
-        }
+        { "id": "lib-study-hall", "name": "Main Study Hall", "floor": 1, "capacity": 200 },
+        { "id": "lib-computer-lab", "name": "Digital Resource Centre", "floor": 2, "capacity": 40 }
       ]
     },
     {
-      "id": "science-building",
-      "name": "Science Building",
-      "description": "Home to physics, chemistry, and biology departments",
-      "latitude": 51.506,
-      "longitude": -0.091,
+      "id": "cis-faculty",
+      "name": "Faculty of Communication and Information Sciences",
+      "description": "Home to the Department of Computer Science, Telecommunication Science, and Information Technology.",
+      "latitude": 8.4791,
+      "longitude": 4.5405,
       "rooms": [
-        {
-          "id": "sci-201",
-          "name": "Physics Lab",
-          "floor": 2,
-          "capacity": 25
-        },
-        {
-          "id": "sci-202",
-          "name": "Chemistry Lab",
-          "floor": 2,
-          "capacity": 30
-        }
+        { "id": "cis-lab-1", "name": "Computer Lab 1", "floor": 1, "capacity": 50 },
+        { "id": "cis-lecture-theatre", "name": "CIS Lecture Theatre", "floor": 1, "capacity": 150 }
       ]
     },
     {
-      "id": "engineering-center",
-      "name": "Engineering Center",
-      "description": "Engineering and technology facilities",
-      "latitude": 51.504,
-      "longitude": -0.089,
+      "id": "engineering-faculty",
+      "name": "Faculty of Engineering and Technology",
+      "description": "Engineering departments including Civil, Electrical, Mechanical, and Agricultural Engineering.",
+      "latitude": 8.4815,
+      "longitude": 4.5398,
       "rooms": [
-        {
-          "id": "eng-301",
-          "name": "Robotics Lab",
-          "floor": 3,
-          "capacity": 15
-        },
-        {
-          "id": "eng-302",
-          "name": "Workshop",
-          "floor": 3,
-          "capacity": 40
-        }
+        { "id": "eng-workshop", "name": "Engineering Workshop", "floor": 1, "capacity": 60 },
+        { "id": "eng-drawing-office", "name": "Drawing Office", "floor": 2, "capacity": 45 }
       ]
+    },
+    {
+      "id": "student-union",
+      "name": "Student Union Building",
+      "description": "Cafeteria, student union offices, and common areas for student activities.",
+      "latitude": 8.4785,
+      "longitude": 4.5432,
+      "rooms": [
+        { "id": "sub-cafeteria", "name": "Main Cafeteria", "floor": 1, "capacity": 300 }
+      ]
+    },
+    {
+      "id": "sports-complex",
+      "name": "Sports Complex",
+      "description": "University stadium and sports facilities including football pitch and basketball courts.",
+      "latitude": 8.4825,
+      "longitude": 4.5445,
+      "rooms": []
     }
   ]
 }

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import NavLink from "@/components/molecules/NavLink";
 import Button from "@/components/atoms/Button";
+import { useAuth } from "@/context/AuthContext";
 import {
   LayoutDashboard,
   Map,
@@ -12,7 +13,6 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-  Menu,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -29,13 +29,20 @@ const Sidebar: React.FC<SidebarProps> = ({
   isOpen = true,
   onClose,
 }) => {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login", { replace: true });
+  };
+
   // desktop-only collapse state
   const [isCollapsed, setIsCollapsed] = useState(false);
   const toggleCollapse = () => setIsCollapsed((prev) => !prev);
 
   // mobile-only collapse state
-  const [isMobileCollapsed, setIsMobileCollapsed] = useState(false);
-  const toggleMobileCollapse = () => setIsMobileCollapsed((prev) => !prev);
+  const [isMobileCollapsed] = useState(false);
 
   // width helper – responsive to both mobile and desktop states
   const sidebarWidth = isMobileCollapsed
@@ -198,9 +205,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           {isCollapsed ? (
             <button
               className="flex w-full justify-center rounded-lg p-3 text-white transition-colors hover:bg-white/10"
-              onClick={() => {
-                /* Handle logout */
-              }}
+              onClick={handleLogout}
               title="Sign out"
             >
               <LogOut size={20} />
@@ -210,9 +215,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               variant="outline"
               fullWidth
               className="border-white text-white hover:bg-white hover:text-primary"
-              onClick={() => {
-                /* Handle logout */
-              }}
+              onClick={handleLogout}
             >
               <LogOut size={16} className="mr-2" />
               Sign out

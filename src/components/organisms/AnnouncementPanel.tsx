@@ -1,11 +1,12 @@
 import React from 'react';
 import AnnouncementCard from '@/components/molecules/AnnouncementCard';
+import type { IconName } from '@/components/atoms/Icon';
 
-interface Announcement {
+export interface Announcement {
   id: string;
   title: string;
   content: string;
-  icon?: string;
+  icon?: IconName;
   timestamp?: string;
   priority?: 'low' | 'medium' | 'high';
 }

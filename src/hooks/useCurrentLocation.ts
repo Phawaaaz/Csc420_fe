@@ -1,21 +1,27 @@
 import { useState, useEffect } from 'react';
 
+interface CurrentLocation {
+  lat: number | null;
+  lng: number | null;
+  loading: boolean;
+  error: boolean;
+}
+
 /**
  * Custom hook to get the current user location.
  * Invokes navigator.geolocation.getCurrentPosition on mount.
  * Falls back to a default location after 10 seconds or on permission denied.
- * @returns {{lat: number | null, lng: number | null, loading: boolean, error: boolean}}
  */
-const useCurrentLocation = () => {
-  const [lat, setLat] = useState(null);
-  const [lng, setLng] = useState(null);
+const useCurrentLocation = (): CurrentLocation => {
+  const [lat, setLat] = useState<number | null>(null);
+  const [lng, setLng] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    let timeoutId;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
-    const successHandler = (position) => {
+    const successHandler = (position: GeolocationPosition) => {
       clearTimeout(timeoutId);
       setLat(position.coords.latitude);
       setLng(position.coords.longitude);
@@ -23,7 +29,7 @@ const useCurrentLocation = () => {
       setError(false);
     };
 
-    const errorHandler = (err) => {
+    const errorHandler = (err: GeolocationPositionError) => {
       clearTimeout(timeoutId);
       console.error('Geolocation error:', err);
       // Fallback location for University of Ilorin
@@ -65,4 +71,4 @@ const useCurrentLocation = () => {
   return { lat, lng, loading, error };
 };
 
-export default useCurrentLocation; 
+export default useCurrentLocation;

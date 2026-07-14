@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from '@/components/atoms/Icon';
+import Icon, { type IconName } from '@/components/atoms/Icon';
 
 interface ActivityItem {
   id: string;
@@ -20,7 +20,7 @@ const RecentActivity: React.FC<RecentActivityProps> = ({
   activities,
   className = '',
 }) => {
-  const getActivityIcon = (type: string) => {
+  const getActivityIcon = (type: string): IconName => {
     switch (type) {
       case 'search': return 'Search';
       case 'direction': return 'Navigation';
@@ -54,9 +54,9 @@ const RecentActivity: React.FC<RecentActivityProps> = ({
               className="flex items-start py-2 border-b border-gray-100 last:border-b-0"
             >
               <div className="mr-3 mt-0.5">
-                <Icon 
-                  name={getActivityIcon(activity.type) as any} 
-                  size={18} 
+                <Icon
+                  name={getActivityIcon(activity.type)}
+                  size={18}
                   className="text-primary"
                 />
               </div>

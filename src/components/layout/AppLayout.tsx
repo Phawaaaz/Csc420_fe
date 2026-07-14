@@ -10,11 +10,6 @@ import { useAuth } from '@/context/AuthContext';
 const AppLayout: React.FC = () => {
   const { user } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  
-  const handleSearch = (query: string) => {
-    console.log('Search:', query);
-    // Implement search functionality
-  };
 
   const toggleSidebar = () => {
     setIsSidebarOpen(prev => !prev);
@@ -28,8 +23,7 @@ const AppLayout: React.FC = () => {
       />
       
       <div className="flex flex-col flex-1 overflow-hidden">
-        <Header 
-          onSearch={handleSearch} 
+        <Header
           userName={user?.displayName}
           onMenuClick={toggleSidebar}
         />

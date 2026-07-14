@@ -1,10 +1,10 @@
 import React from 'react';
-import Icon from '@/components/atoms/Icon';
+import Icon, { type IconName } from '@/components/atoms/Icon';
 
 interface AnnouncementCardProps {
   title: string;
   content: string;
-  icon?: string;
+  icon?: IconName;
   timestamp?: string;
   priority?: 'low' | 'medium' | 'high';
   className?: string;
@@ -42,9 +42,9 @@ const AnnouncementCard: React.FC<AnnouncementCardProps> = ({
     <div className={`p-4 rounded-lg ${priorityColors[priority]} ${className}`}>
       <div className="flex items-start">
         <div className="flex-shrink-0 mr-3">
-          <Icon 
-            name={icon as any} 
-            size={18} 
+          <Icon
+            name={icon}
+            size={18}
             className={`
               ${priority === 'low' ? 'text-gray-500' : ''}
               ${priority === 'medium' ? 'text-warning' : ''}
